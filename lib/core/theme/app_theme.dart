@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // Colors
-  static const Color primaryColor = Color(0xFF6366F1); // Indigo
-  static const Color secondaryColor = Color(0xFF10B981); // Green
+  static const Color primaryColor = Color(0xFF0175C2); // Flutter Blue
+  static const Color secondaryColor = Color(0xFF13B9FD); // Light Blue
   static const Color errorColor = Color(0xFFEF4444);
   static const Color warningColor = Color(0xFFF59E0B);
-  static const Color successColor = Color(0xFF10B981);
+  static const Color successColor = Color(0xFF0175C2); // Flutter Blue
   static const Color backgroundColor = Color(0xFFF9FAFB);
   static const Color cardColor = Color(0xFFFFFFFF);
   static const Color textPrimaryColor = Color(0xFF111827);

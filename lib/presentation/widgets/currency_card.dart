@@ -46,7 +46,7 @@ class CurrencyCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
           side: const BorderSide(
-            color: Color(0xFF4CAF50), // Green border
+            color: Color(0xFF0175C2), // Blue border
             width: 2,
           ),
         ),
@@ -63,7 +63,7 @@ class CurrencyCard extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF4CAF50),
+                    color: const Color(0xFF0175C2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(

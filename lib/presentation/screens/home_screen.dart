@@ -129,7 +129,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           backgroundColor: Colors.grey[300],
                           valueColor: AlwaysStoppedAnimation<Color>(
                             ocrState.result!.isConfident
-                                ? Colors.green
+                                ? Theme.of(context).primaryColor
                                 : Colors.orange,
                           ),
                         ),

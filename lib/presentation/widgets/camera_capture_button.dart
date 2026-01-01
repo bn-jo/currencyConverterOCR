@@ -39,10 +39,10 @@ class CameraCaptureButton extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.camera_alt,
-                size: 64,
-                color: Colors.white,
+              Image.asset(
+                'assets/images/app_logo.png',
+                width: 80,
+                height: 80,
               ),
               const SizedBox(height: 16),
               Text(

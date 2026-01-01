@@ -87,17 +87,17 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
             autofocus: true,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             style: const TextStyle(color: Colors.white, fontSize: 24),
-            cursorColor: const Color(0xFF4CAF50),
+            cursorColor: const Color(0xFF0175C2),
             decoration: InputDecoration(
               hintText: '0.00',
               hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
               filled: true,
               fillColor: const Color(0xFF1E1E1E),
               enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF4CAF50)),
+                borderSide: BorderSide(color: Color(0xFF0175C2)),
               ),
               focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF4CAF50), width: 2),
+                borderSide: BorderSide(color: Color(0xFF0175C2), width: 2),
               ),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.clear, color: Colors.white54),
@@ -122,7 +122,7 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
               },
               child: const Text(
                 'OK',
-                style: TextStyle(color: Color(0xFF4CAF50)),
+                style: TextStyle(color: Color(0xFF0175C2)),
               ),
             ),
           ],
@@ -170,14 +170,11 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              '€\$¥',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+          children: [
+            Image.asset(
+              'assets/images/app_logo.png',
+              width: 40,
+              height: 40,
             ),
           ],
         ),
@@ -284,7 +281,7 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
             await ref.read(currencyListProvider.notifier).refreshConversions(settings.favoriteCurrencies);
           }
         },
-        backgroundColor: const Color(0xFF4CAF50), // Green FAB
+        backgroundColor: const Color(0xFF0175C2), // Blue FAB
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
