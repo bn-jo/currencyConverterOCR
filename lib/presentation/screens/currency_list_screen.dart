@@ -72,35 +72,24 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
 
     final result = await showDialog<double>(
       context: context,
-      builder: (context) => Theme(
-        data: ThemeData.dark().copyWith(
-          dialogBackgroundColor: const Color(0xFF2C2C2C),
-        ),
-        child: AlertDialog(
-          backgroundColor: const Color(0xFF2C2C2C),
-          title: Text(
-            'Enter Amount ($currencyCode)',
-            style: const TextStyle(color: Colors.white),
-          ),
+      builder: (context) => AlertDialog(
+          title: Text('Enter Amount ($currencyCode)'),
           content: TextField(
             controller: controller,
             autofocus: true,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            style: const TextStyle(color: Colors.white, fontSize: 24),
-            cursorColor: const Color(0xFF0175C2),
+            style: const TextStyle(fontSize: 24),
+            cursorColor: Theme.of(context).primaryColor,
             decoration: InputDecoration(
               hintText: '0.00',
-              hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
-              filled: true,
-              fillColor: const Color(0xFF1E1E1E),
-              enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF0175C2)),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).primaryColor),
               ),
-              focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF0175C2), width: 2),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
               ),
               suffixIcon: IconButton(
-                icon: const Icon(Icons.clear, color: Colors.white54),
+                icon: const Icon(Icons.clear),
                 onPressed: () {
                   controller.clear();
                 },
@@ -110,24 +99,20 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: Colors.white54),
-              ),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 final amount = double.tryParse(controller.text);
                 Navigator.pop(context, amount);
               },
-              child: const Text(
+              child: Text(
                 'OK',
-                style: TextStyle(color: Color(0xFF0175C2)),
+                style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ),
           ],
         ),
-      ),
     );
 
     if (result != null && mounted) {
@@ -155,12 +140,10 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
     final currencyListState = ref.watch(currencyListProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1E1E1E), // Dark background
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E1E1E),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.settings, color: Colors.white),
+          icon: const Icon(Icons.settings),
           onPressed: () {
             Navigator.push(
               context,
@@ -180,7 +163,7 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
+            icon: const Icon(Icons.refresh),
             onPressed: () async {
               // Clear all amounts
               final notifier = ref.read(currencyListProvider.notifier);
@@ -201,26 +184,20 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.currency_exchange,
                           size: 64,
-                          color: Colors.white24,
+                          color: Theme.of(context).iconTheme.color?.withOpacity(0.3),
                         ),
                         const SizedBox(height: 16),
                         Text(
                           'No currencies added',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white.withOpacity(0.5),
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Tap + to add currencies',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white.withOpacity(0.3),
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -281,8 +258,8 @@ class _CurrencyListScreenState extends ConsumerState<CurrencyListScreen> {
             await ref.read(currencyListProvider.notifier).refreshConversions(settings.favoriteCurrencies);
           }
         },
-        backgroundColor: const Color(0xFF0175C2), // Blue FAB
-        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(Icons.add),
       ),
     );
   }

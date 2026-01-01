@@ -45,12 +45,11 @@ class CurrencyCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(
-            color: Color(0xFF0175C2), // Blue border
+          side: BorderSide(
+            color: Theme.of(context).primaryColor,
             width: 2,
           ),
         ),
-        color: const Color(0xFF2C2C2C), // Dark background
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
           child: Row(
@@ -63,7 +62,7 @@ class CurrencyCard extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0175C2),
+                    color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(
@@ -88,20 +87,20 @@ class CurrencyCard extends StatelessWidget {
                       children: [
                         Text(
                           currency.symbol,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
                         const SizedBox(width: 2),
                         Flexible(
                           child: Text(
                             amount.toStringAsFixed(currency.decimalDigits),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Theme.of(context).textTheme.bodyLarge?.color,
                             ),
                             maxLines: 1,
                           ),
@@ -125,18 +124,18 @@ class CurrencyCard extends StatelessWidget {
                         children: [
                           Text(
                             currencyCode,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Theme.of(context).textTheme.bodyLarge?.color,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             currency.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11,
-                              color: Colors.white70,
+                              color: Theme.of(context).textTheme.bodyMedium?.color,
                             ),
                             textAlign: TextAlign.end,
                             maxLines: 2,

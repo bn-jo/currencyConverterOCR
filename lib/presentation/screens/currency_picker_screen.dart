@@ -41,15 +41,9 @@ class _CurrencyPickerScreenState extends State<CurrencyPickerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1E1E1E),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E1E1E),
         elevation: 0,
-        title: const Text(
-          'Add Currency',
-          style: TextStyle(color: Colors.white),
-        ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text('Add Currency'),
       ),
       body: Column(
         children: [
@@ -58,25 +52,16 @@ class _CurrencyPickerScreenState extends State<CurrencyPickerScreen> {
             padding: const EdgeInsets.all(16),
             child: TextField(
               onChanged: _filterCurrencies,
-              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'Search currency...',
-                hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
-                prefixIcon: const Icon(Icons.search, color: Colors.white54),
-                filled: true,
-                fillColor: const Color(0xFF2C2C2C),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF0175C2),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
                     width: 2,
                   ),
                 ),
@@ -90,10 +75,7 @@ class _CurrencyPickerScreenState extends State<CurrencyPickerScreen> {
                 ? Center(
                     child: Text(
                       'No currencies found',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
-                        fontSize: 16,
-                      ),
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   )
                 : ListView.builder(
@@ -129,21 +111,17 @@ class _CurrencyPickerScreenState extends State<CurrencyPickerScreen> {
                         title: Text(
                           currency.name,
                           style: const TextStyle(
-                            color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         subtitle: Text(
                           '${currency.code} • ${currency.symbol}',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
-                            fontSize: 14,
-                          ),
+                          style: const TextStyle(fontSize: 14),
                         ),
-                        trailing: const Icon(
+                        trailing: Icon(
                           Icons.add_circle_outline,
-                          color: Color(0xFF0175C2),
+                          color: Theme.of(context).primaryColor,
                         ),
                       );
                     },

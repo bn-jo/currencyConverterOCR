@@ -11,58 +11,47 @@ class SettingsScreen extends ConsumerWidget {
     final settings = ref.watch(settingsProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1E1E1E),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E1E1E),
         elevation: 0,
-        title: Text(
-          'settings'.tr(),
-          style: const TextStyle(color: Colors.white),
-        ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text('settings'.tr()),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
           // Language Section
-          Container(
+          Card(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2C),
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFF0175C2), width: 1),
+              side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
             ),
             child: ListTile(
-              leading: const Icon(Icons.language, color: Color(0xFF0175C2)),
+              leading: Icon(Icons.language, color: Theme.of(context).primaryColor),
               title: Text(
                 'language'.tr(),
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
-              subtitle: Text(
-                _getLanguageName(settings.languageCode),
-                style: TextStyle(color: Colors.white.withOpacity(0.7)),
-              ),
-              trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 16),
+              subtitle: Text(_getLanguageName(settings.languageCode)),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               onTap: () => _showLanguagePicker(context, ref),
             ),
           ),
 
           // Dark Mode Section
-          Container(
+          Card(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2C),
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFF0175C2), width: 1),
+              side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
             ),
             child: SwitchListTile(
-              secondary: const Icon(Icons.dark_mode, color: Color(0xFF0175C2)),
+              secondary: Icon(Icons.dark_mode, color: Theme.of(context).primaryColor),
               title: Text(
                 'dark_mode'.tr(),
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
               value: settings.isDarkMode,
-              activeColor: const Color(0xFF0175C2),
+              activeColor: Theme.of(context).primaryColor,
               onChanged: (value) {
                 ref.read(settingsProvider.notifier).toggleDarkMode();
               },
@@ -89,24 +78,15 @@ class SettingsScreen extends ConsumerWidget {
   void _showLanguagePicker(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
-      builder: (context) => Theme(
-        data: ThemeData.dark().copyWith(
-          dialogBackgroundColor: const Color(0xFF2C2C2C),
-        ),
-        child: AlertDialog(
-          backgroundColor: const Color(0xFF2C2C2C),
-          title: Text(
-            'select_language'.tr(),
-            style: const TextStyle(color: Colors.white),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _languageOption(context, ref, 'en', 'English'),
-              _languageOption(context, ref, 'es', 'Español'),
-              _languageOption(context, ref, 'he', 'עברית'),
-            ],
-          ),
+      builder: (context) => AlertDialog(
+        title: Text('select_language'.tr()),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _languageOption(context, ref, 'en', 'English'),
+            _languageOption(context, ref, 'es', 'Español'),
+            _languageOption(context, ref, 'he', 'עברית'),
+          ],
         ),
       ),
     );
@@ -119,11 +99,8 @@ class SettingsScreen extends ConsumerWidget {
     String name,
   ) {
     return ListTile(
-      title: Text(
-        name,
-        style: const TextStyle(color: Colors.white),
-      ),
-      trailing: const Icon(Icons.check_circle_outline, color: Color(0xFF0175C2)),
+      title: Text(name),
+      trailing: Icon(Icons.check_circle_outline, color: Theme.of(context).primaryColor),
       onTap: () {
         ref.read(settingsProvider.notifier).setLanguage(code);
         context.setLocale(Locale(code));
