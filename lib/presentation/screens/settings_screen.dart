@@ -30,10 +30,10 @@ class SettingsScreen extends ConsumerWidget {
             decoration: BoxDecoration(
               color: const Color(0xFF2C2C2C),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFF4CAF50), width: 1),
+              border: Border.all(color: const Color(0xFF0175C2), width: 1),
             ),
             child: ListTile(
-              leading: const Icon(Icons.language, color: Color(0xFF4CAF50)),
+              leading: const Icon(Icons.language, color: Color(0xFF0175C2)),
               title: Text(
                 'language'.tr(),
                 style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
@@ -53,16 +53,16 @@ class SettingsScreen extends ConsumerWidget {
             decoration: BoxDecoration(
               color: const Color(0xFF2C2C2C),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFF4CAF50), width: 1),
+              border: Border.all(color: const Color(0xFF0175C2), width: 1),
             ),
             child: SwitchListTile(
-              secondary: const Icon(Icons.dark_mode, color: Color(0xFF4CAF50)),
+              secondary: const Icon(Icons.dark_mode, color: Color(0xFF0175C2)),
               title: Text(
                 'dark_mode'.tr(),
                 style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               ),
               value: settings.isDarkMode,
-              activeColor: const Color(0xFF4CAF50),
+              activeColor: const Color(0xFF0175C2),
               onChanged: (value) {
                 ref.read(settingsProvider.notifier).toggleDarkMode();
               },
@@ -123,7 +123,7 @@ class SettingsScreen extends ConsumerWidget {
         name,
         style: const TextStyle(color: Colors.white),
       ),
-      trailing: const Icon(Icons.check_circle_outline, color: Color(0xFF4CAF50)),
+      trailing: const Icon(Icons.check_circle_outline, color: Color(0xFF0175C2)),
       onTap: () {
         ref.read(settingsProvider.notifier).setLanguage(code);
         context.setLocale(Locale(code));

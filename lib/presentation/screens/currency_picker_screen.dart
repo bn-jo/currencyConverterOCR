@@ -76,7 +76,7 @@ class _CurrencyPickerScreenState extends State<CurrencyPickerScreen> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(
-                    color: Color(0xFF4CAF50),
+                    color: Color(0xFF0175C2),
                     width: 2,
                   ),
                 ),
@@ -143,7 +143,7 @@ class _CurrencyPickerScreenState extends State<CurrencyPickerScreen> {
                         ),
                         trailing: const Icon(
                           Icons.add_circle_outline,
-                          color: Color(0xFF4CAF50),
+                          color: Color(0xFF0175C2),
                         ),
                       );
                     },
