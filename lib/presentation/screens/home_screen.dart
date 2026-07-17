@@ -21,6 +21,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   String? _sourceCurrency;
   String? _targetCurrency;
   double? _amount;
+  final TextEditingController _amountController = TextEditingController();
 
   @override
   void initState() {
@@ -35,12 +36,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
+  }
+
   void _handleOcrComplete() {
     final ocrState = ref.read(ocrProvider);
     if (ocrState.parseResult != null && ocrState.parseResult!.isValid) {
       setState(() {
-        _sourceCurrency = ocrState.parseResult!.currency;
+        // Update currency only if detected, otherwise keep current selection
+        if (ocrState.parseResult!.currency != null) {
+          _sourceCurrency = ocrState.parseResult!.currency;
+        }
         _amount = ocrState.parseResult!.amount;
+        _amountController.text = _amount?.toString() ?? '';
       });
 
       // Auto-convert if we have all required data
@@ -120,9 +131,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          ocrState.result!.text,
+                          ocrState.result!.text.isEmpty
+                            ? 'No text detected - try again with better lighting'
+                            : ocrState.result!.text,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
+                        if (ocrState.parseResult != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            'Found: ${ocrState.parseResult!.amount ?? "no number"} ${ocrState.parseResult!.currency ?? ""}',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: ocrState.parseResult!.isValid ? Colors.green : Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                         const SizedBox(height: 8),
                         LinearProgressIndicator(
                           value: ocrState.result!.confidence,
@@ -174,14 +197,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   prefixIcon: const Icon(Icons.money),
                 ),
                 keyboardType: TextInputType.number,
+                controller: _amountController,
                 onChanged: (value) {
                   setState(() {
                     _amount = double.tryParse(value);
                   });
                 },
-                controller: _amount != null
-                    ? TextEditingController(text: _amount.toString())
-                    : null,
               ),
               const SizedBox(height: 24),
 

@@ -62,8 +62,17 @@ class OcrNotifier extends StateNotifier<OcrState> {
       // Extract text with OCR
       final result = await _service.extractTextWithRetry(processedImage);
 
+      // Debug: Print what OCR detected
+      print('🔍 OCR DETECTED TEXT: "${result.text}"');
+      print('🔍 OCR Confidence: ${result.confidence}');
+
       // Parse text to extract currency and amount
       final parseResult = TextParser.parseText(result.text);
+
+      // Debug: Print parsed result
+      print('💰 PARSED Amount: ${parseResult.amount}');
+      print('💰 PARSED Currency: ${parseResult.currency}');
+      print('💰 Is Valid: ${parseResult.isValid}');
 
       state = state.copyWith(
         isProcessing: false,
@@ -72,6 +81,7 @@ class OcrNotifier extends StateNotifier<OcrState> {
         error: null,
       );
     } catch (e) {
+      print('❌ OCR ERROR: $e');
       state = state.copyWith(
         isProcessing: false,
         error: 'Failed to process image: $e',

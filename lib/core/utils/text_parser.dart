@@ -26,57 +26,59 @@ class TextParser {
 
   /// Extract numeric amount from text
   static double? extractAmount(String text) {
-    // Remove currency symbols and letters
-    String cleaned = text;
-    for (var symbol in CurrencySymbols.symbolToCode.keys) {
-      cleaned = cleaned.replaceAll(symbol, '');
-    }
-    cleaned = cleaned.replaceAll(RegExp(r'[A-Za-z]'), '');
+    // Try to find any number in the text - be very aggressive
 
-    // Handle different number formats
-    // European format: 1.234,56 -> 1234.56
-    // US format: 1,234.56 -> 1234.56
+    // First, try to find numbers with decimal points or commas
+    // Match patterns like: 123.45, 123,45, 1,234.56, 1.234,56
+    final complexNumberRegex = RegExp(r'\d{1,3}(?:[,.]\d{3})*(?:[,.]\d{1,2})?|\d+[,.]\d{1,2}|\d+');
+    final matches = complexNumberRegex.allMatches(text);
 
-    // Count commas and periods
-    final commaCount = ','.allMatches(cleaned).length;
-    final periodCount = '.'.allMatches(cleaned).length;
+    double? bestNumber;
 
-    if (commaCount > 0 && periodCount > 0) {
-      // Both present - determine which is decimal separator
-      final lastCommaIndex = cleaned.lastIndexOf(',');
-      final lastPeriodIndex = cleaned.lastIndexOf('.');
+    for (final match in matches) {
+      String numberStr = match.group(0)!;
 
-      if (lastCommaIndex > lastPeriodIndex) {
-        // European format
-        cleaned = cleaned.replaceAll('.', '').replaceAll(',', '.');
-      } else {
-        // US format
-        cleaned = cleaned.replaceAll(',', '');
+      // Count commas and periods
+      final commaCount = ','.allMatches(numberStr).length;
+      final periodCount = '.'.allMatches(numberStr).length;
+
+      String cleaned = numberStr;
+
+      if (commaCount > 0 && periodCount > 0) {
+        // Both present - determine which is decimal separator
+        final lastCommaIndex = cleaned.lastIndexOf(',');
+        final lastPeriodIndex = cleaned.lastIndexOf('.');
+
+        if (lastCommaIndex > lastPeriodIndex) {
+          // European format: 1.234,56
+          cleaned = cleaned.replaceAll('.', '').replaceAll(',', '.');
+        } else {
+          // US format: 1,234.56
+          cleaned = cleaned.replaceAll(',', '');
+        }
+      } else if (commaCount > 0) {
+        // Only commas - could be thousands separator or decimal
+        if (commaCount == 1 && cleaned.indexOf(',') > cleaned.length - 4) {
+          // Likely decimal separator
+          cleaned = cleaned.replaceAll(',', '.');
+        } else {
+          // Thousands separator
+          cleaned = cleaned.replaceAll(',', '');
+        }
       }
-    } else if (commaCount > 0) {
-      // Only commas - could be thousands separator or decimal
-      if (commaCount == 1 && cleaned.indexOf(',') > cleaned.length - 4) {
-        // Likely decimal separator
-        cleaned = cleaned.replaceAll(',', '.');
-      } else {
-        // Thousands separator
-        cleaned = cleaned.replaceAll(',', '');
-      }
-    }
 
-    // Extract number
-    final numberRegex = RegExp(r'-?\d+\.?\d*');
-    final match = numberRegex.firstMatch(cleaned);
-
-    if (match != null) {
       try {
-        return double.parse(match.group(0)!);
+        final num = double.parse(cleaned);
+        // Prefer larger numbers (likely to be prices) over small numbers
+        if (bestNumber == null || num > bestNumber) {
+          bestNumber = num;
+        }
       } catch (e) {
-        return null;
+        // Skip invalid numbers
       }
     }
 
-    return null;
+    return bestNumber;
   }
 
   /// Get possible currency codes for ambiguous symbols
@@ -125,5 +127,6 @@ class ParseResult {
     required this.rawText,
   });
 
-  bool get isValid => currency != null && amount != null;
+  // Valid if we have an amount - currency is optional
+  bool get isValid => amount != null;
 }
